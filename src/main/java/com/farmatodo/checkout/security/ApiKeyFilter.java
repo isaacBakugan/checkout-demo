@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,6 +19,7 @@ import java.util.Set;
  * app.security.apiKeys (application.yml).
  */
 @Component
+@Profile("!test") // desactiva el filtro cuando spring.profiles.active=test
 public class ApiKeyFilter extends OncePerRequestFilter {
 
     private final Set<String> validKeys;

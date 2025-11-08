@@ -38,7 +38,7 @@ class CustomerControllerTest {
     req.setPassword("secret123");
 
     mockMvc.perform(post("/customers")
-        .header("X-API-KEY", apiKey)
+        .header("X-API-KEY", "test-key")
         .contentType(MediaType.APPLICATION_JSON)
         .content(objectMapper.writeValueAsString(req)))
         .andExpect(status().isCreated())

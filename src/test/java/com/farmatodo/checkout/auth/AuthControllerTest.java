@@ -58,7 +58,7 @@ class AuthControllerTest {
     req.setPassword("secret123");
 
     mockMvc.perform(post("/auth/login")
-        .header("X-API-KEY", apiKey)
+        .header("X-API-KEY", "test-key")
         .contentType(MediaType.APPLICATION_JSON)
         .content(mapper.writeValueAsString(req)))
         .andExpect(status().isOk())
@@ -77,7 +77,7 @@ class AuthControllerTest {
     req.setPassword("wrong");
 
     mockMvc.perform(post("/auth/login")
-        .header("X-API-KEY", apiKey)
+        .header("X-API-KEY", "test-key")
         .contentType(MediaType.APPLICATION_JSON)
         .content(mapper.writeValueAsString(req)))
         .andExpect(status().isBadRequest())

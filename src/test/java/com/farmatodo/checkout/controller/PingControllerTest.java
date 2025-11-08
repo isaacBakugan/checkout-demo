@@ -30,7 +30,7 @@ class PingControllerTest {
 
     @Test
     void shouldReturnPong() throws Exception {
-        mockMvc.perform(get("/ping").header("X-API-KEY", apiKey))
+        mockMvc.perform(get("/ping").header("X-API-KEY", "test-key"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("pong"));
     }
