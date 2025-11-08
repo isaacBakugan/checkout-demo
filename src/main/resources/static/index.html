@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Checkout Demo - Ping</title>
+  <style>
+    :root { font-family: ui-sans-serif, system-ui; color-scheme: light dark; }
+    body { margin: 2rem; max-width: 720px; }
+    input, button { padding: .6rem .8rem; font-size: 1rem; }
+    .row { display: flex; gap: .5rem; align-items: center; }
+    .card { border: 1px solid #9993; border-radius: 12px; padding: 1rem; }
+    #out { margin-top: 1rem; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Ping</h1>
+  <div class="card">
+    <div class="row">
+      <label for="key">API Key</label>
+      <input id="key" placeholder="dev-key-123" value="dev-key-123"/>
+      <button id="btn">Ping</button>
+    </div>
+    <div id="out"></div>
+  </div>
+
+  <script src="js/main.js"></script>
+
+</body>
+</html>

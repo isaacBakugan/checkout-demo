@@ -9,6 +9,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Pruebas unitarias del endpoint /ping.
+ * 
+ * Valida que la ruta responda con estado HTTP 200 y el cuerpo esperado "pong".
+ */
 @WebMvcTest(PingController.class)
 class PingControllerTest {
 
