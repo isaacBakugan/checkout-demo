@@ -1,6 +1,7 @@
 package com.farmatodo.checkout.controller;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,10 +20,12 @@ class PingControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Value("${app.security.apiKeys}")
+    private String apiKey;
 
     @Test
     void shouldReturnPong() throws Exception {
-        mockMvc.perform(get("/ping"))
+        mockMvc.perform(get("/ping").header("X-API-KEY", apiKey))
                 .andExpect(status().isOk())
                 .andExpect(content().string("pong"));
     }
