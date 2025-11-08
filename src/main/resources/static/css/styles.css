@@ -1,0 +1,8 @@
+:root { color-scheme: light dark; font-family: ui-sans-serif, system-ui; }
+body { margin: 2rem; }
+.container { max-width: 900px; margin: 0 auto; }
+.card { border: 1px solid #9993; border-radius: 14px; padding: 1rem; margin-bottom: 1rem; }
+.row { display:flex; gap:.5rem; align-items:center; }
+.grid { display:grid; gap:.5rem; grid-template-columns: repeat(2, minmax(0,1fr)); }
+input, button { padding:.6rem .8rem; font-size:1rem; }
+pre { background:#0001; padding:.6rem; border-radius:8px; overflow:auto; }
