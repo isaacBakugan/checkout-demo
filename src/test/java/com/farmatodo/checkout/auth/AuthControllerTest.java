@@ -74,7 +74,7 @@ class AuthControllerTest {
   void loginShouldFail_whenBadPassword() throws Exception {
     var req = new LoginRequest();
     req.setEmail("isaac@demo.com");
-    req.setPassword("wrong");
+    req.setPassword("wrong123456");
 
     mockMvc.perform(post("/auth/login")
         .header("X-API-KEY", "test-key")

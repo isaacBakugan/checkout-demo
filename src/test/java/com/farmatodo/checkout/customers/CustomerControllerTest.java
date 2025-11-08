@@ -2,6 +2,8 @@ package com.farmatodo.checkout.customers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.farmatodo.checkout.customers.dto.CustomerRegisterRequest;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +23,15 @@ class CustomerControllerTest {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
+  
   @Value("${app.security.apiKeys}")
   private String apiKey;
+  @Autowired
+private CustomerRepository customerRepository;
+  @BeforeEach
+void cleanDb() {
+    customerRepository.deleteAll();
+}
 /**
  * Pruebas unitarias del endpoint /customers.
  * 
