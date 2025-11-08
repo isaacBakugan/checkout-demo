@@ -29,6 +29,7 @@ public class AuthController {
       throw new IllegalArgumentException("Credenciales inválidas");
     }
     
-    return new LoginResponse(true, UUID.randomUUID().toString());
+    return new LoginResponse(true, UUID.randomUUID().toString(), c.getName());
+
   }
 }
