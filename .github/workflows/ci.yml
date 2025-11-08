@@ -26,7 +26,7 @@ jobs:
       run: mvn -B clean package --file pom.xml
 
     - name: Ejecutar pruebas unitarias
-      run: mvn test -Dspring.profiles.active=test -DAPI_KEY_DEV=${{ secrets.API_KEY_DEV }}
+      run: mvn test -Dspring.profiles.active=test
 
     - name: Construir imagen Docker
       run: docker build -t checkout-app .

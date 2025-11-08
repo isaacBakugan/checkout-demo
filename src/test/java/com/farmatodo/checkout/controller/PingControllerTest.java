@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Valida que la ruta responda con estado HTTP 200 y el cuerpo esperado "pong".
  */
 
-@SpringBootTest
+//@SpringBootTest
 @WebMvcTest(PingController.class)
 @TestPropertySource(properties = "app.security.apiKeys=test-key")
 class PingControllerTest {
