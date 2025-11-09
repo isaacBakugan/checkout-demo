@@ -1,0 +1,2 @@
+# Desactivar la exclusión de target para permitir subir el jar
+#target/
