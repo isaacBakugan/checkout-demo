@@ -26,14 +26,14 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/index.html", "/js/**", "/css/**", "/assets/**", "/favicon.ico").permitAll()
+                .requestMatchers("/", "/index.html", "/js/**", "/css/**", "/assets/**", "/favicon.ico",  "/h2-console/**").permitAll()
                 .anyRequest().permitAll()
             );
 
         if (apiKeyFilter != null) {
             http.addFilterBefore(apiKeyFilter, AnonymousAuthenticationFilter.class);
         }
-
+        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
         return http.build();
     }
 }

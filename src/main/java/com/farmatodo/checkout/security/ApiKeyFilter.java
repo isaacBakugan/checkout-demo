@@ -55,7 +55,8 @@ public class ApiKeyFilter extends OncePerRequestFilter {
            p.startsWith("/js/") ||
            p.startsWith("/css/") ||
            p.startsWith("/assets/") ||
-           p.equals("/favicon.ico");
+           p.equals("/favicon.ico") ||
+           p.startsWith("/h2-console");
 }
 }
 

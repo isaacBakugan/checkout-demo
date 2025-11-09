@@ -5,23 +5,28 @@ import com.farmatodo.checkout.customers.dto.CustomerResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.farmatodo.checkout.audit.AuditService;
 @Service
 public class CustomerService {
 
   private final CustomerRepository repo;
   private final PasswordEncoder encoder;
-
-  public CustomerService(CustomerRepository repo, PasswordEncoder encoder) {
+  private final AuditService auditService;
+  public CustomerService(CustomerRepository repo, PasswordEncoder encoder, AuditService auditService) {
     this.repo = repo;
     this.encoder = encoder;
+    this.auditService = auditService;
   }
 
   public CustomerResponse register(CustomerRegisterRequest r) {
-    if (repo.existsByEmail(r.getEmail()))
+    if (repo.existsByEmail(r.getEmail())) {
+      auditService.log("customers", "signup", "Email already exist " + r.getEmail());
       throw new IllegalArgumentException("Email ya registrado");
-    if (repo.existsByPhone(r.getPhone()))
+    }
+    if (repo.existsByPhone(r.getPhone())) {
+      auditService.log("customers", "signup", "phone already exist " + r.getPhone());
       throw new IllegalArgumentException("Teléfono ya registrado");
+    }
 
     Customer c = new Customer();
     c.setName(r.getName());
@@ -32,10 +37,12 @@ public class CustomerService {
 
     try {
       Customer saved = repo.save(c);
+      auditService.log("customers", "signup", "New User:" + saved.getName()+ "("+saved.getEmail()+")");
+
       return new CustomerResponse(saved.getId(), saved.getName(), saved.getEmail(),
               saved.getPhone(), saved.getAddress());
     } catch (DataIntegrityViolationException ex) {
-      // por si acaso se cuela una carrera y lo pilla el unique constraint
+      auditService.log("customers", "signup", "email or phone already exist");
       throw new IllegalArgumentException("Email o teléfono ya registrado");
     }
   }

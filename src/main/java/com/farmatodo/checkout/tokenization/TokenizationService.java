@@ -5,6 +5,9 @@ import com.farmatodo.checkout.tokenization.dto.TokenizeRequest;
 import com.farmatodo.checkout.tokenization.dto.TokenizeResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.farmatodo.checkout.audit.AuditService;
+
+
 
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -16,19 +19,23 @@ public class TokenizationService {
     private final CardTokenRepository repo;
     private final AesGcm crypto;
     private final Random random = new Random();
+    private final AuditService auditService;
 
     private final double rejectProbability;
 
-    public TokenizationService(CardTokenRepository repo, AesGcm crypto,
+    public TokenizationService(CardTokenRepository repo, AesGcm crypto,  AuditService auditService,
             @Value("${app.business.tokenizationRejectProbability:0.0}") double rejectProbability) {
         this.repo = repo;
         this.crypto = crypto;
+        this.auditService = auditService;
         this.rejectProbability = rejectProbability;
     }
 
     public TokenizeResponse tokenize(TokenizeRequest req) {
         validate(req);
         if (random.nextDouble() < rejectProbability) {
+            auditService.log("tokenization", "create_token_rejected", "Tokenization rejected by probability policy");
+
             throw new TokenizationRejectedException("Tokenization rejected by probability policy");
         }
 
@@ -54,6 +61,7 @@ public class TokenizationService {
                 .build();
 
         entity = repo.save(entity);
+        auditService.log("tokenization", "create_token", "Token " + token + " creado exitosamente");
 
         return TokenizeResponse.builder()
                 .token(entity.getToken())

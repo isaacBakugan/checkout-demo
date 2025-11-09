@@ -7,7 +7,7 @@ import com.farmatodo.checkout.customers.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
+import com.farmatodo.checkout.audit.AuditService;
 import java.util.UUID;
 
 @RestController
@@ -16,19 +16,21 @@ public class AuthController {
 
   private final CustomerService customers;
   private final PasswordEncoder encoder;
-
-  public AuthController(CustomerService customers, PasswordEncoder encoder) {
+  private final AuditService auditService;
+  public AuthController(CustomerService customers, PasswordEncoder encoder, AuditService auditService) {
     this.customers = customers;
     this.encoder = encoder;
+    this.auditService = auditService;
   }
 
   @PostMapping("/login")
   public LoginResponse login(@Valid @RequestBody LoginRequest req) {
     Customer c = customers.findByEmailOrThrow(req.getEmail());
     if (!encoder.matches(req.getPassword(), c.getPasswordHash())) {
+      auditService.log("auth", "login failed", "invalid credentials");
       throw new IllegalArgumentException("Credenciales inválidas");
     }
-    
+    auditService.log("customers", "login success", "Login from user: "+c.getName());
     return new LoginResponse(true, UUID.randomUUID().toString(), c.getName());
 
   }

@@ -28,8 +28,9 @@ public class TokenizationServiceTest {
     return ct;
 });
         var crypto = new AesGcm(AesGcm.generateKey256());
-        var svc = new TokenizationService(repo, crypto, 0.0);
-
+        //var svc = new TokenizationService(repo, crypto, 0.0);
+        var audit = Mockito.mock(com.farmatodo.checkout.audit.AuditService.class);
+        var svc = new TokenizationService(repo, crypto, audit, 0.0);
         var req = new TokenizeRequest();
         req.setCardNumber("4242424242424242");
         req.setCvv("123");
