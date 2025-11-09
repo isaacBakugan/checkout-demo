@@ -84,5 +84,33 @@ $('btnLogin').onclick = async () => {
   }
 };
 
+// --- Tokenización ---
+$('btnTokenize').onclick = async () => {
+  $('outToken').textContent = 'Tokenizando tarjeta...';
+
+  const body = {
+    cardNumber: $('t_card').value.replace(/\s+/g, ''),
+    cvv: $('t_cvv').value.trim(),
+    expMonth: parseInt($('t_expMonth').value, 10),
+    expYear: parseInt($('t_expYear').value, 10),
+    cardholderName: $('t_name').value.trim(),
+    customerEmail: $('t_email').value.trim() || null
+  };
+
+  try {
+    const r = await api('/tokenize', 'POST', body);
+    if (r.status === 200) {
+      $('outToken').textContent = `✅ Token creado: ${r.data.token} — ${r.data.brand} ****${r.data.last4}`;
+      // Guardamos el token para el flujo de pago
+      sessionStorage.setItem('paymentToken', r.data.token);
+    } else {
+      $('outToken').textContent = `⚠️ Error ${r.status}: ${JSON.stringify(r.data)}`;
+    }
+  } catch (e) {
+    $('outToken').textContent = `💥 Error de red: ${e}`;
+  }
+};
+
+
 // Inicializa UI
 updateUserUI();

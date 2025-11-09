@@ -17,3 +17,10 @@ server:
 app:
   security:
     apiKeys: ${API_KEY_DEV:mi-clave-real}
+    cryptoKeyBase64: ${APP_CRYPTO_KEY:} # clave AES-256
+  business:
+    tokenizationRejectProbability: 0.15 # 15% rechazo configurable
+    minStockToShow: 5
+    paymentRejectProbability: 0.25
+    paymentMaxRetries: 3
+

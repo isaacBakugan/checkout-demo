@@ -1,53 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Checkout Demo</title>
-  <link rel="stylesheet" href="css/styles.css"/>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Checkout Demo</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
 
-<body>
-  <main class="container">
-    <h1>Checkout Demo</h1>
-    <header class="user-bar">
+  <body>
+    <main class="container">
+      <h1>Checkout Demo</h1>
+      <header class="user-bar">
         <span id="userInfo">No autenticado</span>
-        <button id="btnLogout" style="display:none;">Cerrar sesión</button>
-    </header>
+        <button id="btnLogout" style="display: none">Cerrar sesión</button>
+      </header>
 
-    <section class="card">
-      <h2>API Key</h2>
-      <div class="row">
-        <input id="key" placeholder="API Key"/>
-        <button id="btnPing">Probar /ping</button>
-      </div>
-      <pre id="outPing"></pre>
-    </section>
+      <section class="card">
+        <h2>API Key</h2>
+        <div class="row">
+          <input id="key" placeholder="API Key" />
+          <button id="btnPing">Probar /ping</button>
+        </div>
+        <pre id="outPing"></pre>
+      </section>
 
-    <section class="card">
-      <h2>Registro de cliente</h2>
-      <div class="grid">
-        <input id="r_name" placeholder="Nombre"/>
-        <input id="r_email" placeholder="Email"/>
-        <input id="r_phone" placeholder="Teléfono"/>
-        <input id="r_address" placeholder="Dirección"/>
-        <input id="r_password" placeholder="Contraseña" type="password"/>
-      </div>
-      <button id="btnRegister">Registrar</button>
-      <pre id="outRegister"></pre>
-    </section>
+      <section class="card">
+        <h2>Registro de cliente</h2>
+        <div class="grid">
+          <input id="r_name" placeholder="Nombre" />
+          <input id="r_email" placeholder="Email" />
+          <input id="r_phone" placeholder="Teléfono" />
+          <input id="r_address" placeholder="Dirección" />
+          <input id="r_password" placeholder="Contraseña" type="password" />
+        </div>
+        <button id="btnRegister">Registrar</button>
+        <pre id="outRegister"></pre>
+      </section>
 
-    <section class="card">
-      <h2>Login</h2>
-      <div class="grid">
-        <input id="l_email" placeholder="Email"/>
-        <input id="l_password" placeholder="Contraseña" type="password"/>
-      </div>
-      <button id="btnLogin">Iniciar sesión</button>
-      <pre id="outLogin"></pre>
-    </section>
-  </main>
+      <section class="card">
+        <h2>Login</h2>
+        <div class="grid">
+          <input id="l_email" placeholder="Email" />
+          <input id="l_password" placeholder="Contraseña" type="password" />
+        </div>
+        <button id="btnLogin">Iniciar sesión</button>
+        <pre id="outLogin"></pre>
+      </section>
 
-  <script src="js/main.js"></script>
-</body>
+      <section class="card">
+  <h3>Tokenización de Tarjeta</h3>
+  <div>
+    <label>Número de tarjeta</label>
+    <input id="t_card" type="text" placeholder="4242 4242 4242 4242">
+  </div>
+  <div>
+    <label>CVV</label>
+    <input id="t_cvv" type="text" placeholder="123">
+  </div>
+  <div>
+    <label>Expiración</label>
+    <input id="t_expMonth" type="number" placeholder="MM" min="1" max="12">
+    <input id="t_expYear" type="number" placeholder="AAAA" min="2025" max="2100">
+  </div>
+  <div>
+    <label>Nombre en tarjeta</label>
+    <input id="t_name" type="text" placeholder="John Doe">
+  </div>
+  <div>
+    <label>Email (opcional)</label>
+    <input id="t_email" type="email" placeholder="user@correo.com">
+  </div>
+  <button id="btnTokenize">Tokenizar</button>
+  <pre id="outToken"></pre>
+</section>
+
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
 </html>
