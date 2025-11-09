@@ -167,10 +167,6 @@ Crea pedido desde carrito, simula pago con probabilidad + N reintentos, descuent
 
 notifications
 
-EmailService via JavaMailSender
-
-MailHog en dev (SMTP 1025), SMTP real en prod (variables SMTP_USER/PASS).
-
 audit/logs
 
 AuditEvent, AuditEventRepository, AuditService
