@@ -39,7 +39,8 @@ public class DataSeeder implements CommandLineRunner {
                 Product.builder().sku("SKU-002").name("Té Verde 20 sobres").stock(40).build(),
                 Product.builder().sku("SKU-003").name("Chocolate 70% 100g").stock(15).build(),
                 Product.builder().sku("SKU-004").name("Galletas Avena 12u").stock(30).build(),
-                Product.builder().sku("SKU-005").name("Agua 1.5L").stock(50).build()
+                Product.builder().sku("SKU-005").name("Agua 1.5L").stock(50).build(),
+                Product.builder().sku("SKU-006").name("Galleta Oreo").stock(1).build()
         );
 
         repo.saveAll(items);

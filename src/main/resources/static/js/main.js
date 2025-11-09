@@ -179,3 +179,56 @@ $('btnViewCart').onclick = async () => {
 
 // Inicializa UI
 updateUserUI();
+
+// Helpers de sesión
+const sessId = sessionStorage.getItem('sessionId') || crypto.randomUUID();
+sessionStorage.setItem('sessionId', sessId);
+
+$('btnLoadToken').onclick = () => {
+  const t = sessionStorage.getItem('paymentToken');
+  $('o_token').value = t || '';
+  if (!t) alert('No hay token en sesión. Primero tokeniza una tarjeta.');
+};
+
+$('btnPay').onclick = async () => {
+  const resEl = $('outOrder');
+  resEl.textContent = 'Procesando pago...';
+
+  const body = {
+    customerName: $('o_name').value.trim(),
+    customerEmail: $('o_email').value.trim(),
+    shippingAddress: $('o_address').value.trim(),
+    cardNumber: $('o_card').value.replace(/\s+/g,'') || null, // solo visual
+    paymentToken: $('o_token').value.trim()
+  };
+
+  if (!body.paymentToken) {
+    resEl.textContent = 'Debe existir un token de pago. Tokeniza primero.';
+    return;
+  }
+
+  try {
+    const resp = await fetch('/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': $('key').value,
+        'X-SESSION-ID': sessId
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await resp.json();
+    if (resp.ok) {
+      resEl.textContent = `Orden ${data.orderId} — ${data.status} — Monto: ${data.amount}`;
+      if (data.status === 'PAID') {
+        // Si todo ok, podrías limpiar UI del carrito
+        $('cartItems')?.replaceChildren();
+      }
+    } else {
+      resEl.textContent = `Error ${resp.status}: ${data.message || JSON.stringify(data)}`;
+    }
+  } catch (e) {
+    resEl.textContent = 'Error de red';
+  }
+};
