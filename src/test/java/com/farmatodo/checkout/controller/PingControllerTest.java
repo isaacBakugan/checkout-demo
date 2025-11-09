@@ -29,8 +29,7 @@ class PingControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Value("${app.security.apiKeys}")
-    private String apiKey;
+
 
     @Test
     void shouldReturnPong() throws Exception {

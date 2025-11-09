@@ -30,8 +30,6 @@ class AuthControllerTest {
   @Autowired private CustomerRepository repo;
   @Autowired private PasswordEncoder encoder;
 
-  @Value("${app.security.apiKeys}")
-  private String apiKey;
 /**
  * Pruebas unitarias del endpoint /auth/login.
  * 

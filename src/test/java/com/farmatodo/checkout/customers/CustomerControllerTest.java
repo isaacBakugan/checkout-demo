@@ -26,8 +26,7 @@ class CustomerControllerTest {
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
   
-  @Value("${app.security.apiKeys}")
-  private String apiKey;
+
   @Autowired
 private CustomerRepository customerRepository;
   @BeforeEach

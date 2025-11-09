@@ -24,9 +24,12 @@ public class ApiKeyFilter extends OncePerRequestFilter {
 
     private final Set<String> validKeys;
 
-    public ApiKeyFilter(@Value("${app.security.apiKeys}") String keysCsv) {
-        this.validKeys = Set.of(keysCsv.split(","));
-    }
+    // public ApiKeyFilter(@Value("${app.security.apiKeys}") String keysCsv) {
+    //     this.validKeys = Set.of(keysCsv.split(","));
+    // }
+    public ApiKeyFilter(@Value("${app.security.apiKeys:test-key}") String keysCsv) {
+    this.validKeys = Set.of(keysCsv.split(","));
+}
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
