@@ -24,4 +24,6 @@ app:
     minStockToShow: 5
     paymentRejectProbability: 0.25
     paymentMaxRetries: 3
+  seed:
+    products: true
 
