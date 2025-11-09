@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Profile({"default","dev","test"}) // no se ejecuta en prod
+@Profile({"default","dev","test","prod"})
 public class DataSeeder implements CommandLineRunner {
 
     private final ProductRepository repo;
