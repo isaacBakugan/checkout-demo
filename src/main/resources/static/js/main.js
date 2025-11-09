@@ -110,7 +110,72 @@ $('btnTokenize').onclick = async () => {
     $('outToken').textContent = `💥 Error de red: ${e}`;
   }
 };
+const sessionId = sessionStorage.getItem('sessionId') || crypto.randomUUID();
+sessionStorage.setItem('sessionId', sessionId);
 
+// Búsqueda
+$('btnSearch').onclick = async () => {
+  const q = $('productSearch').value.trim();
+  const resEl = $('productResults');
+  resEl.textContent = 'Buscando...';
+  try {
+    const r = await api(`/products${q ? `?q=${encodeURIComponent(q)}` : ''}`);
+    if (r.status !== 200) {
+      resEl.textContent = 'Error al buscar productos';
+      return;
+    }
+    if (!r.data.length) {
+      resEl.textContent = 'No hay productos disponibles';
+      return;
+    }
+    resEl.innerHTML = r.data.map(p => `
+      <div style="margin:4px; padding:4px; border:1px solid #ddd;">
+        <b>${p.name}</b> (stock: ${p.stock})
+        <button onclick="addToCart('${p.sku}')">Agregar</button>
+      </div>`).join('');
+  } catch (err) {
+    resEl.textContent = 'Error de red';
+  }
+};
+
+// Agregar al carrito
+async function addToCart(sku) {
+  try {
+    const r = await fetch(`/cart/${sku}`, {
+      method: 'POST',
+      headers: {
+        'X-API-KEY': $('key').value,
+        'X-SESSION-ID': sessionId
+      }
+    });
+    const data = await r.json();
+    if (r.ok) {
+      alert(`Agregado al carrito: ${data.name}`);
+    } else {
+      alert(`Error: ${data.message || 'No se pudo agregar'}`);
+    }
+  } catch (e) {
+    alert('Error de red');
+  }
+}
+
+// Ver carrito
+$('btnViewCart').onclick = async () => {
+  const r = await fetch('/cart', {
+    headers: {
+      'X-API-KEY': $('key').value,
+      'X-SESSION-ID': sessionId
+    }
+  });
+  const data = await r.json();
+  if (!r.ok) {
+    $('cartItems').textContent = 'Error al cargar carrito';
+    return;
+  }
+  $('cartItems').innerHTML = data.length
+    ? data.map(i => `<div>${i.name} x${i.quantity}</div>`).join('')
+    : 'Carrito vacío';
+};
 
 // Inicializa UI
 updateUserUI();
