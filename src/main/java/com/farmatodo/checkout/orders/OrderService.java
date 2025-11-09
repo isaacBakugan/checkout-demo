@@ -7,6 +7,8 @@ import com.farmatodo.checkout.tokenization.CardTokenRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
+import com.farmatodo.checkout.products.ProductRepository;
+//import com.farmatodo.checkout.products.Product;
 
 import java.util.List;
 
@@ -18,17 +20,21 @@ public class OrderService {
     private final CardTokenRepository tokenRepo;
     private final PaymentSimulator payment;
     private final AuditService audit;
+    private final ProductRepository productRepo;
 
     public OrderService(OrderRepository orderRepo,
                         CartItemRepository cartRepo,
                         CardTokenRepository tokenRepo,
                         PaymentSimulator payment,
-                        AuditService audit) {
+                        AuditService audit,
+                        ProductRepository productRepo) {
         this.orderRepo = orderRepo;
         this.cartRepo = cartRepo;
         this.tokenRepo = tokenRepo;
         this.payment = payment;
         this.audit = audit;
+        this.productRepo = productRepo;
+
     }
 
     @Transactional
@@ -84,9 +90,25 @@ public class OrderService {
                 "orderId=" + order.getId() + ", amount=" + amount + ", token=" + token);
 
         // Si pago OK, limpiar carrito
+        // if (ok) {
+        //     cartRepo.deleteAll(cart);
+        // }
         if (ok) {
+    // Restar stock de productos
+            for (var ci : cart) {
+                productRepo.findBySku(ci.getSku()).ifPresent(p -> {
+                    int nuevoStock = Math.max(p.getStock() - ci.getQuantity(), 0);
+                    p.setStock(nuevoStock);
+                    productRepo.save(p);
+                });
+            }
+
+            // Limpiar carrito
+            audit.log("inventory", "stock_updated", "Order " + order.getId() + " descontó stock");
+
             cartRepo.deleteAll(cart);
         }
+
 
         return order;
     }
