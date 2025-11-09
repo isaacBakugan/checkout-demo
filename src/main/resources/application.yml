@@ -16,4 +16,4 @@ server:
   port: 8080
 app:
   security:
-    apiKeys: test-key
+    apiKeys: ${API_KEY_DEV:mi-clave-real}
